@@ -104,10 +104,6 @@ R2 score: The baseline model does not explain any of the target data's variabili
 Train R2 Score: 0.16100812885771
 Test R2 Score: 0.15931963671763205
 
-![](../images/Lin_reg_important_feat.png)
-
-
-
 ### Random Forest Regression Model: 
 
 The Linear Regression model provided us a terrible accuracy score for predicting response times. We attempted to improve the accuracy by implementing the Random Forest Regression model using the same training and testing set.
@@ -119,16 +115,33 @@ The training R2 score jumped significantly, somewhat expected from a Random Fore
 
 ### XGBoost Regressor Model:
 
-Training Score: 0.188
-Testing Score: 0.186
+Training Score: 0.267
+Testing Score: 0.230
 RMSE for XGBRegressor: 0.434
 
-## Conclusion & Limitations & Improvements:
+![](./images/xgboost_features.png)
 
-Unfortunately the predictive models did not produce favorable results. Based on our analytics, there seems to not be enough signal in the datasets we collected. 
+**Recommendation:** 
 
+BLS RESCUE AMBULANCE and ALS RESCUE AMBULANCE are the top 2 most important features according to the XG Boost Model. 
+ALS is a rescue ambulance that is staffed with parademics, people with training that allows them to stabilize patients en-route to a hospital.
+BLS is a rescue ambulance with two EM technicians instead of paramedics, those individuals cannot use needles, cut skin, or administer medications to patients.
+
+In many cases, BLS ambulances will be dispatched only to realize the patient requires an ALS ambulance for medical treatment during transport. This is reflected even in our dataset as more than 85% of the LAFD incident calls are medical emergencies.
+
+Given all these reasons, we recommend the City of LA and the LAFD to increase the number of ALS ambulances instead of increasing the number of BLS ambulances. 
+
+
+## Conclusion (Limitations & Future Steps):
+
+**Limitations:**
 Our limitations transpired from the lack of assessible census data which forced us to make a variety of assumptions. One of the primary assumptions we had to make was that the 'first-in-district' column for each of the emergency response by the LAFD rows correspond to the fire-station department in our fire-station geo-spatial dataset. Assuming that it was correct, we also made an assumption that the fire-department that first responded to the incident, must be near the same geographic location as where the incident took place. Afterwards we created a plot displaying the boundaries of the 97 Neighborhood Councils throughout the LA County and matched the fire-station geographic locations that are within the boundaries of the N.C. 
 
 We were able to merge datasets with inferring the first_in_district number corresponds to the Neighborhood Council.
 
 Another huge limitation was that we underestimated how computationally expensive running the models would be. We will consider moving the processings to the Cloud via AWS in order to run the GridSearch of finding the best hyperparamters of our respective models. 
+
+**Future Steps:**
+* Conduct a study to see if the decrease in BLS & increase in ALS ambulances will decrease ALS response  times
+* Role of idle ambulances, old equipments, inefficient systems and the impact it has in response times
+* Impact that traffic & topography has on response times
